@@ -20,6 +20,7 @@ app/config/parameters.yml
 /app/phpunit.xml
 
 # Ohter files
+.idea*
 /build/
 /vendor/
 /bin/
