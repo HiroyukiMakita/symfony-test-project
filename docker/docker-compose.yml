@@ -1,0 +1,35 @@
+version: '3'
+services:
+  web:
+    image: nginx:1.15.6
+    ports:
+      - "8000:80"
+    # Nginx が PHP を使用するための依存関係定義
+    depends_on:
+      - app
+    volumes:
+      - ./web/default.conf:/etc/nginx/conf.d/default.conf
+      - ../:/var/www/html
+  app:
+    #定義したDockerfileを元にイメージを作るように変更
+    build: ./php
+    # app が MySQL を使用するための依存関係定義
+    depends_on:
+      - mysql
+    volumes:
+      - ../:/var/www/html
+  mysql:
+    image: mysql:5.7
+    # MySQL の設定情報
+    environment:
+      MYSQL_DATABASE: sample
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    # MySQL のデータ永続化
+    volumes:
+      - mysql-data:/var/lib/mysql
+volumes:
+  mysql-data:
