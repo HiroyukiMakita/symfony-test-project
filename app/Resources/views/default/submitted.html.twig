@@ -1,0 +1,9 @@
+{# app/Resources/views/default/submitted.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Form Submit Success!</h1>
+    <a href="{{ path('formpage', {name: 'formpage'}) }}">
+        back to form
+    </a>
+{% endblock %}
