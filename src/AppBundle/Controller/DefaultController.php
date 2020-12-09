@@ -14,8 +14,31 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', array(
-            'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-        ));
+        return $this->render(
+            'default/index.html.twig',
+            array(
+                'base_dir' => realpath($this->container->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
+            )
+        );
+    }
+
+    /**
+     * @Route
+     * (
+     *     "/hello/{name}.{_format}",
+     *     defaults={"_format"="html"},
+     *     requirements = { "_format" = "html|xml|json" },
+     *     name="hello"
+     * )
+     */
+    public function helloAction($name)
+    {
+        return $this->render(
+            'default/hello.html.twig',
+            array(
+                'name' => $name,
+            )
+        );
+    }
     }
 }
