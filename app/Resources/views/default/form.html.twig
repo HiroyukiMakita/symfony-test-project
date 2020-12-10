@@ -4,7 +4,31 @@
 
 {% block body %}
     <h1>This is Symfony Form!</h1>
+    {# form の開始タグ #}
     {{ form_start(form) }}
-    {{ form_widget(form) }}
+
+    {# 全てのフィールド。フィールド要素自身とラベルやエラーメッセージを含む。 #}
+    {# {{ form_widget(form) }} #}
+
+    {# フォーム全体のグローバルなエラーを表示 #}
+    {{ form_errors(form) }}
+
+    {# {{ form_row(form.name) }}#}
+
+    {# 以下の div は form_row(form.name) と同じ  #}
+    <div>
+        {{ form_label(form.name, 'Custom label') }}
+        {{ form_errors(form.name) }}
+        {{ form_widget(form.name) }}
+    </div>
+
+    {{ form_row(form.price) }}
+    {{ form_row(form.description) }}
+
+    {# form の閉じタグ #}
     {{ form_end(form) }}
+
+    <a href="{{ path('select-all') }}">
+        show products
+    </a>
 {% endblock %}

@@ -74,6 +74,19 @@ class DefaultController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // フォーム送信成功時の処理
 
+            /*
+             * DB からのオブジェクトの取得、DB へのオブジェクトの保存
+             * を行う Doctrine エンティティマネージャの取得
+             */
+            $doctrine = $this->getDoctrine()->getManager();
+            /*
+             * Doctrine エンティティマネージャに $product オブジェクトの操作を指定
+             * ※ この段階では DB へのクエリーはされない
+             */
+            $doctrine->persist($product);
+
+            // 現状のエンティティの変更を DB に反映するクエリ実行（プリペアドステートメント使用）
+            $doctrine->flush();
 
             return $this->redirectToRoute('submitted');
         }
@@ -92,5 +105,19 @@ class DefaultController extends Controller
     public function submittedAction(Request $request)
     {
         return $this->render('default/submitted.html.twig');
+    }
+
+    /**
+     * @Route("/products", name="select-all")
+     */
+    public function selectProductAction(Request $request)
+    {
+        // product エンティティ全件取得
+        $product = $this->getDoctrine()
+            ->getRepository('AppBundle:Product')
+            ->findAll();
+
+        // 取得した $product オブジェクトにわたす
+        return $this->render('default/selected.html.twig', ['products' => $product]);
     }
 }

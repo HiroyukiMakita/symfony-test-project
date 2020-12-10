@@ -1,0 +1,28 @@
+{# app/Resources/views/default/submitted.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Products in product table!</h1>
+    <table border="1" width="500" cellspacing="0" cellpadding="5" bordercolor="#333333">
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>PRICE</th>
+            <th>DESCRIPTION</th>
+        </tr>
+        {# products 全件を１レコードずつループ  #}
+        {% for product in products %}
+            <tr>
+                <td align="center">{{ product.id }}</td>
+                <td align="center">{{ product.name }}</td>
+                {# number_format でカンマ区切りできる  #}
+                <td align="right">¥{{ product.price|number_format }}</td>
+                <td>{{ product.description }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{{ path('formpage', {name: 'formpage'}) }}">
+        back to form
+    </a>
+{% endblock %}
