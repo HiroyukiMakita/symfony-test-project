@@ -120,4 +120,56 @@ class DefaultController extends Controller
         // 取得した $product オブジェクトにわたす
         return $this->render('default/selected.html.twig', ['products' => $product]);
     }
+
+    /**
+     * @Route("/product/{productId}/edit", name="edit")
+     */
+    public function editProductAction($productId, Request $request)
+    {
+        /*
+         * DB からのオブジェクトの取得、DB へのオブジェクトの保存
+         * を行う Doctrine エンティティマネージャの取得
+         */
+        $doctrine = $this->getDoctrine()->getManager();
+        // $productId に紐づく product エンティティ 1 件取得
+        $product = $doctrine->getRepository('AppBundle:Product')
+            ->find($productId);
+
+        if ($product === null) {
+            // product エンティティ存在しなければ 404 エラー
+            throw $this->createNotFoundException();
+        }
+
+        // 取得したエンティティを基に編集用のフォーム作成
+        $form = $this->createFormBuilder($product)
+            ->add('name', TextType::class)
+            ->add('price', NumberType::class)
+            ->add('description', TextType::class)
+            ->add('save', SubmitType::class, array('label' => 'Edit Product'))
+            ->getForm();
+
+        // フォーム送信されたデータをエンティティの各プロパティにセット
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // フォーム送信後の処理
+
+            /*
+             * $productId に紐づく product エンティティ 1 件取得したときに
+             * Doctrine エンティティマネージャ は $product オブジェクトを取得しているため
+             * $doctrine->persist($product); は不要
+             */
+            $doctrine->flush();
+
+            return $this->redirectToRoute('submitted');
+        }
+
+        return $this->render(
+            'default/edit.html.twig',
+            array(
+                'id' => $product->getId(),
+                'form' => $form->createView(),
+            )
+        );
+    }
 }

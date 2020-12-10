@@ -1,0 +1,21 @@
+{# app/Resources/views/default/form.html.twig #}
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <h1>Edit Product</h1>
+    <p>【id】{{ id }}</p>
+    {{ form_start(form) }}
+
+    {{ form_errors(form) }}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.price) }}
+    {{ form_row(form.description) }}
+
+    {{ form_end(form) }}
+
+    <a href="{{ path('select-all') }}">
+        back to products page
+    </a>
+{% endblock %}

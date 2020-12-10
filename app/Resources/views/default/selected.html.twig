@@ -9,6 +9,7 @@
             <th>NAME</th>
             <th>PRICE</th>
             <th>DESCRIPTION</th>
+            <th>EDIT</th>
         </tr>
         {# products 全件を１レコードずつループ  #}
         {% for product in products %}
@@ -18,6 +19,11 @@
                 {# number_format でカンマ区切りできる  #}
                 <td align="right">¥{{ product.price|number_format }}</td>
                 <td>{{ product.description }}</td>
+                <td align="center">
+                    <a href="{{ path('edit', {productId: product.id}) }}">
+                        edit
+                    </a>
+                </td>
             </tr>
         {% endfor %}
     </table>
