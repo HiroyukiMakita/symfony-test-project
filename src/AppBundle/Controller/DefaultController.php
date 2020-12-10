@@ -172,4 +172,39 @@ class DefaultController extends Controller
             )
         );
     }
+
+    /**
+     * @Route("/product/{productId}/delete", name="delete")
+     */
+    public function deleteProductAction($productId, Request $request)
+    {
+        /*
+         * DB からのオブジェクトの取得、DB へのオブジェクトの保存
+         * を行う Doctrine エンティティマネージャの取得
+         */
+        $doctrine = $this->getDoctrine()->getManager();
+        // $productId に紐づく product エンティティ 1 件取得
+        $product = $doctrine->getRepository('AppBundle:Product')
+            ->find($productId);
+
+        if ($product === null) {
+            // product エンティティ存在しなければ 404 エラー
+            throw $this->createNotFoundException();
+        }
+
+        // エンティティを削除することを Doctrine に指定
+        $doctrine->remove($product);
+        // クエリ実行
+        $doctrine->flush();
+
+        return $this->render(
+            'default/delete.html.twig',
+            array(
+                'id' => $productId,
+                // 削除後も id 以外の $product の内容を表示できた
+                'product' => $product,
+                'waitSeconds' => 8,
+            )
+        );
+    }
 }

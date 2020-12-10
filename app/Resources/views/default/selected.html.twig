@@ -10,6 +10,7 @@
             <th>PRICE</th>
             <th>DESCRIPTION</th>
             <th>EDIT</th>
+            <th>DELETE</th>
         </tr>
         {# products 全件を１レコードずつループ  #}
         {% for product in products %}
@@ -22,6 +23,11 @@
                 <td align="center">
                     <a href="{{ path('edit', {productId: product.id}) }}">
                         edit
+                    </a>
+                </td>
+                <td align="center">
+                    <a href="{{ path('delete', {productId: product.id}) }}">
+                        delete
                     </a>
                 </td>
             </tr>

@@ -1,0 +1,26 @@
+{# app/Resources/views/default/delete.html.twig #}
+{% extends 'base.html.twig' %}
+{% block meta %}
+    http-equiv="refresh" content=" {{ waitSeconds }}; url={{ path('select-all') }}"
+{% endblock %}
+
+{% block body %}
+    <h1>Product Deleted!</h1>
+    <h2>【 Removed product detail 】</h2>
+    <table border="1" width="500" cellspacing="0" cellpadding="5" bordercolor="#333333">
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>PRICE</th>
+            <th>DESCRIPTION</th>
+        </tr>
+        <tr>
+            <td align="center">{{ id }}</td>
+            <td align="center">{{ product.name }}</td>
+            {# number_format でカンマ区切りできる  #}
+            <td align="right">¥{{ product.price|number_format }}</td>
+            <td>{{ product.description }}</td>
+        </tr>
+    </table>
+    <h4>Go to the products page after {{ waitSeconds }} seconds...</h4>
+{% endblock %}
