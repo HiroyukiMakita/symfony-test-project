@@ -8,6 +8,36 @@
     </head>
     <body>
         {% block body %}{% endblock %}
+        <div style="border-top: inset">
+            <dl>
+                <p>page links</p>
+                <dd>
+                    <a href="{{ path('homepage') }}">
+                        home
+                    </a>
+                </dd>
+                <dd>
+                    <a href="{{ path('hello', {name: 'name'}) }}">
+                        hello
+                    </a>
+                </dd>
+                <dd>
+                    <a href="{{ path('formpage') }}">
+                        form
+                    </a>
+                </dd>
+                <dd>
+                    <a href="{{ path('submitted') }}">
+                        success
+                    </a>
+                </dd>
+                <dd>
+                    <a href="{{ path('select-all') }}">
+                        products
+                    </a>
+                </dd>
+            </dl>
+        </div>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
